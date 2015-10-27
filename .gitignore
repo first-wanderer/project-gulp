@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+Thumbs.db
+.DS_Store
+prepros.cfg
+*.sublime*
+*.map
+bower_components
+build
+.tmp
