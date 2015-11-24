@@ -6,4 +6,5 @@
 /*
     Custom
  */
-//= partials/helper.js
+//= components/helper.js
+//= components/example.js

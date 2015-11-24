@@ -1,0 +1,31 @@
+// Стили состояний
+// a {
+//   &:hover {
+//     color: #fff;
+//     text-shadow: 0 0 1px #fff,
+//                  0 0 3px $color-light;
+//   }
+//   &:focus {
+//     color: #fff;
+//     text-decoration: none;
+//   }
+// }
+// .s-portfolio li {
+//   &:hover {
+//     text-shadow: 0 0 1px #fff,
+//                0 0 3px $color-light;
+//   }
+//   &.active {
+//     color: $color-light-bl;
+//     text-shadow: none;
+//     border-bottom: 1px solid $color-light-bl;
+//     cursor: default;
+//   }
+// }
+
+// .btn:hover, .btn:focus {
+//   text-decoration: none;
+//   outline: none;
+//   box-shadow: 0 0 1px 1px #fff,
+//               0 0 3px 1px $color-light;
+// }
