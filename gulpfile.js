@@ -10,9 +10,11 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
     rimraf = require('rimraf'),
-    browserSync = require("browser-sync"),
+    browserSync = require('browser-sync'),
     reload = browserSync.reload,
-    runSequence = require('gulp-run-sequence');
+    runSequence = require('gulp-run-sequence'),
+    gutil = require('gulp-util'),
+    jscs = require('gulp-jscs');
 
 
 var path = {
@@ -25,6 +27,7 @@ var path = {
     src: {
         html: 'src/*.html',
         js: 'src/js/script.js',
+        jsall: 'src/js/**/*.js',
         style: 'src/style/style.scss',
         img: 'src/img/**/*.*'
     },
@@ -59,6 +62,7 @@ gulp.task('html:build', function () {
     gulp.src(path.src.html)
         .pipe(rigger())
         .pipe(gulp.dest(path.build.html))
+        .on('error', gutil.log)
         .pipe(reload({stream: true}));
 });
 
@@ -68,6 +72,12 @@ gulp.task('js:build', function () {
         .pipe(uglify())
         .pipe(gulp.dest(path.build.js))
         .pipe(reload({stream: true}));
+});
+
+gulp.task('js:check', function () {
+    gulp.src(path.src.jsall)
+        .pipe(jscs())
+        .pipe(jscs.reporter());
 });
 
 gulp.task('style:build', function () {
@@ -80,6 +90,7 @@ gulp.task('style:build', function () {
         .pipe(prefixer())
         .pipe(cssmin())
         .pipe(gulp.dest(path.build.css))
+        .on('error', gutil.log)
         .pipe(reload({stream: true}));
 });
 
@@ -92,6 +103,7 @@ gulp.task('image:build', function () {
             interlaced: true
         }))
         .pipe(gulp.dest(path.build.img))
+        .on('error', gutil.log)
         .pipe(reload({stream: true}));
 });
 
