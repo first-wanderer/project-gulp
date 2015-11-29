@@ -14,7 +14,8 @@ var gulp = require('gulp'),
     reload = browserSync.reload,
     runSequence = require('gulp-run-sequence'),
     gutil = require('gulp-util'),
-    jscs = require('gulp-jscs');
+    jscs = require('gulp-jscs'),
+    htmlhint = require('gulp-htmlhint');
 
 
 var path = {
@@ -50,6 +51,23 @@ var config = {
     logPrefix: "Wanderer"
 };
 
+gulp.task('html:check', function () {
+    gulp.src(path.src.html)
+        .pipe(htmlhint())
+        .pipe(htmlhint.reporter());
+});
+
+gulp.task('js:check', function () {
+    gulp.src(path.src.jsall)
+        .pipe(jscs())
+        .pipe(jscs.reporter());
+});
+
+gulp.task('lint', [
+    'html:check',
+    'js:check'
+]);
+
 gulp.task('webserver', function () {
     browserSync(config);
 });
@@ -71,13 +89,8 @@ gulp.task('js:build', function () {
         .pipe(rigger())
         .pipe(uglify())
         .pipe(gulp.dest(path.build.js))
+        .on('error', gutil.log)
         .pipe(reload({stream: true}));
-});
-
-gulp.task('js:check', function () {
-    gulp.src(path.src.jsall)
-        .pipe(jscs())
-        .pipe(jscs.reporter());
 });
 
 gulp.task('style:build', function () {
@@ -118,7 +131,6 @@ gulp.task('build', function() {
   runSequence('clean', 'bundle');
 });
 
-
 gulp.task('watch', function(){
     watch([path.watch.html], function(event, cb) {
         gulp.start('html:build');
@@ -133,7 +145,6 @@ gulp.task('watch', function(){
         gulp.start('image:build');
     });
 });
-
 
 gulp.task('default', [
     'build',
